@@ -43,7 +43,6 @@ RUN apt-get install -y -q \
     python3-pytest-runner \
     python3-pytest \
     python3-sawtooth-sdk \
-    python3-sawtooth-signing \
     python3-setuptools-scm \
     python3-yaml \
     software-properties-common \
