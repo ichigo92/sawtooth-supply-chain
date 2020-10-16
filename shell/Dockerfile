@@ -13,19 +13,14 @@
 # limitations under the License.
 # ------------------------------------------------------------------------------
 
-FROM ubuntu:bionic
-
-RUN \
- apt-get update \
- && apt-get install -y -q curl gnupg \
- && curl -sSL 'http://p80.pool.sks-keyservers.net/pks/lookup?op=get&search=0x8AA7AF1F1091A5FD' | apt-key add -  \
- && echo 'deb [arch=amd64] http://repo.sawtooth.me/ubuntu/chime/stable bionic universe' >> /etc/apt/sources.list \
- && apt-get update
-
-
+FROM hyperledger/sawtooth-shell:bumper-nightly
 
 # Install Python, Node.js, and Ubuntu dependencies
-RUN apt-get install -y -q \
+RUN echo "deb http://repo.sawtooth.me/ubuntu/1.0/nightly xenial universe" >> /etc/apt/sources.list \
+  && (apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 44FC67F19B2466EA \
+  || apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 44FC67F19B2466EA) \
+  && apt-get update \
+  && apt-get install -y -q \
     apt-transport-https \
     build-essential \
     ca-certificates \
@@ -43,6 +38,7 @@ RUN apt-get install -y -q \
     python3-pytest-runner \
     python3-pytest \
     python3-sawtooth-sdk \
+    python3-sawtooth-signing \
     python3-setuptools-scm \
     python3-yaml \
     software-properties-common \
